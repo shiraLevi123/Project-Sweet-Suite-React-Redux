@@ -1,0 +1,19 @@
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  input.error {
+    border: 2px solid red;
+  }
+  
+  p.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+  

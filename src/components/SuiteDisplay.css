@@ -1,0 +1,25 @@
+.suites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.suite-card {
+    border: 1px solid #66ea4c;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #96eb85;
+    width: 200px;
+}
+.suite-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.suite-image {
+    width: 100px; /* גודל התמונה */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
