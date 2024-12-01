@@ -1,36 +1,3 @@
-// import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import { getAllSuitesServer } from "../service/suiteService";
-
-// export const getAllSuites = createAsyncThunk('suites/getAll', async () => {
-//     const suites = await getAllSuitesServer();
-//     return suites;
-// });
-
-// const suiteSlice = createSlice({
-//     name: 'suite',
-//     initialState: {
-//         allSuites: [],
-//         loading: false,
-
-//     },
-//     reducers: {},
-//     extraReducers: (builder) => {
-//         builder
-//             .addCase(getAllSuites.fulfilled, (state, action) => {
-//                 state.allSuites = action.payload;
-//                 state.loading = false;
-//             })
-//             .addCase(getAllSuites.rejected, (state, action) => {
-//                 console.log('הפעולה נכשלה');
-//                 state.loading = false;
-
-//             })
-//             .addCase(getAllSuites.pending, (state) => {
-//                 state.loading = true;
-//             })
-//     }
-// })
-// export default suiteSlice.reducer;
 
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -53,11 +20,16 @@ const suiteSlice = createSlice({
     name: 'suite',
     initialState: {
         allSuites: [],
+        mySuite: null,  // או פרטי סוויטה ריקים
         searchResults: [], // תוצאות חיפוש
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        setMySuite: (state, action) => {
+            state.mySuite = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             // מקרה אם כל הסוויטות הושלמו בהצלחה
@@ -93,5 +65,6 @@ const suiteSlice = createSlice({
         }
 
 });
+export const { setMySuite } = suiteSlice.actions;
 
 export default suiteSlice.reducer;

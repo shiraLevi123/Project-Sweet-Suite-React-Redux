@@ -5,7 +5,7 @@ export const createDiaryEntry = async (diaryData) => {
     const response = await axios.post('http://localhost:8080/api/diary', diaryData);
     return response.data;
   } catch (error) {
-    // console.log('Error during request:', error);
+    //  console.log('Error during request:', error);
     throw error.response ? error.response.data : error.message;
   }
 };

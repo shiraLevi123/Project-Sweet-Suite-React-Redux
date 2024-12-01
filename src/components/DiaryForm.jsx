@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createDiaryEntryAsync } from '../slice/diarySlice';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const DiaryForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { status, error } = useSelector((state) => state.diary);
   const { suiteId } = useParams();
 
+  console.log("useParams()", useParams());
+
+  console.log("suiteId", suiteId);
   // מצב שדות הטופס
   const [diaryData, setDiaryData] = useState({
     suiteId: +suiteId,
@@ -42,9 +48,10 @@ const DiaryForm = () => {
       setFormError('תאריך צ\'ק-אאוט צריך להיות אחרי תאריך צ\'ק-אין');
       return;
     }
-
     // שליחה ל-redux
     dispatch(createDiaryEntryAsync(diaryData));
+    navigate("/Pay");
+
 
     // מחיקת שגיאה אחרי שליחה
     setFormError('');
