@@ -1,0 +1,29 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.welcome-container {
+    direction: rtl; /* ימין לשמאל */
+    text-align: right; /* טקסט מיושר לימין */
+    margin: 0; /* ללא מרג'ין */
+    padding: 0; /* ללא ריפוד */
+    font-family: Arial, sans-serif; /* גופן */
+    background-image: url('../assets/GIF.gif');
+    background-size: cover; /* מכסה את כל הרקע */
+    background-position: center; /* ממקם את הרקע במרכז */
+    background-repeat: no-repeat; /* לא יחזור על הרקע */
+    height: 100vh; /* גובה מלא של המסך */
+    width: 100vw; /* רוחב מלא של המסך */
+    display: flex; /* תצוגה גמישה */
+    flex-direction: column; /* סידור אנכי */
+    align-items: center; /* מיושר במרכז בציר האופקי */
+    justify-content: center; /* מיושר במרכז בציר האנכי */
+    color: #ffffff; /* צבע טקסט לבן */
+    text-align: center; /* יישור טקסט במרכז */
+    position: absolute; /* הופך את האלמנט לאלמנט עם מיקום מוחלט */
+    top: 0; /* מתחיל מהחלק העליון */
+    left: 0; /* מתחיל מהצד השמאלי */
+}

@@ -9,7 +9,6 @@ const ProtectedRoute = ({ children }) => {
     if (!currentCustomer || !currentCustomer.id) {
         return <Navigate to="/login" />;
     }
-
     // אם יש משתמש מחובר, הצג את הדפים המבוקשים
     return children;
 };

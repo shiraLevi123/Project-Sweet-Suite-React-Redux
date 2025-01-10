@@ -2,58 +2,187 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signUp } from "../slice/customerSlice";
 import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Box, Typography } from '@mui/material';
 
-const SignUpForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [file, setFile] = useState(null);
+
+  const [formCustomer, setFormCustomer] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const handleFileChange = (e) => {
+
+    const file = e.target.files[0];
+    setFile(file);
+  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormCustomer((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("customer", new Blob([JSON.stringify(formCustomer)], { type: "application/json" }))// JSON  );
+    formData.append('image', file);
+    dispatch(signUp(formData))
+      .unwrap()
+      .then(() => {
+        navigate('/login')
+      })
+      .catch((error) => {
+        console.log("שגיאה בהעלאת משתמש:", error);
+      });
 
-    const customerData = { name, email, password };
-
-    try {
-      // שליחת נתונים ל-Redux (ובסיס נתונים)
-      await dispatch(signUp(customerData));
-      navigate('/login'); // לאחר הרשמה, נווט לעמוד ה-login
-    } catch (error) {
-      alert("There was an error during sign up");
-    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
-      <div>
-        <label>Name:</label>
-        <input
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        padding: 2,
+      }}
+    >
+      <Typography variant="h4" gutterBottom>
+        הירשם
+      </Typography>
+
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 400 }}>
+        <TextField
+          label="שם"
+          name="name"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)} // כאן מחברים את השדה לסטייט
+          fullWidth
+          value={formCustomer.name}
+          onChange={handleChange}
+          sx={{
+            marginBottom: 2,
+            direction: 'rtl', 
+            backgroundColor: 'transparent',
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#b3e5fc', 
+                borderWidth: 2,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#b3e5fc', 
+                borderWidth: 2, 
+              },
+            },
+          }}
         />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
+
+        <TextField
+          label="מייל"
+          name="email"
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)} // כאן מחברים את השדה לסטייט
+          fullWidth
+          value={formCustomer.email}
+          onChange={handleChange}
+          sx={{
+            marginBottom: 2,
+            direction: 'rtl', 
+            backgroundColor: 'transparent',
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#b3e5fc', 
+                borderWidth: 2,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#b3e5fc', 
+                borderWidth: 2, 
+              },
+            },
+          }}
         />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
+
+        <TextField
+          label="סיסמא"
+          name="password"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)} // כאן מחברים את השדה לסטייט
+          fullWidth
+          value={formCustomer.password}
+          onChange={handleChange}
+          sx={{
+            marginBottom: 2,
+            direction: 'rtl',
+            backgroundColor: 'transparent', 
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#b3e5fc', 
+                borderWidth: 2,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#b3e5fc', 
+                borderWidth: 2, 
+              },
+            },
+          }}
         />
-      </div>
-      <button type="submit">Sign Up</button>
-    </form>
+
+
+        <Box sx={{ marginBottom: 2, width: '100%' }}>
+          <Typography variant="body2" sx={{ marginBottom: 1, fontWeight: 'bold' }}>
+            העלה תמונה
+          </Typography>
+          <Button
+            variant="outlined"
+            component="label"
+            sx={{
+              width: '100%',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              borderWidth: 2,
+              color: '#b3e5fc',
+              borderColor: '#b3e5fc',
+              '&:hover': {
+                backgroundColor: '#e1f5fe',
+              },
+            }}
+          >
+            בחר קובץ
+            <input
+              type="file"
+              onChange={handleFileChange}
+              hidden
+            />
+          </Button>
+          {formCustomer.file && (
+            <Typography variant="body2" sx={{ marginTop: 1 }}>
+              קובץ נבחר: {formCustomer.file.name}
+            </Typography>
+          )}
+        </Box>
+
+        <Button
+          variant="contained"
+          type="submit"
+          fullWidth
+          sx={{
+            backgroundColor: '#b3e5fc',
+            padding: '6px 16px',
+            fontSize: '15px',
+            height: '40px',
+          }}
+        >
+          הירשם
+        </Button>
+
+      </form>
+    </Box>
   );
 };
 
-export default SignUpForm;
+export default SignUp;

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Box, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { sendMailData } from '../slice/mailSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Pay() {
   const [paymentData, setPaymentData] = useState({
-    cardNumber: '1234123412341234',
-    expiryMonth: '12',
-    expiryYear: '25',
-    cvc: '123',
-    idNumber: '215774282',
+    cardNumber: '',
+    expiryMonth: '',
+    expiryYear: '',
+    cvc: '',
+    idNumber: '',
   });
+  const suiteForm = useSelector((state) => state.suite.mySuite);
+  const currentCustomer = useSelector((state) => state.customer.currentCustomer)
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -49,21 +53,54 @@ export default function Pay() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // כאן תוכל להוסיף את הקוד לשלוח את הנתונים לשרת או לבצע את התשלום
-    console.log('Payment Data:', paymentData);
+    const formMail = {
+      recipient: currentCustomer.email,
+      msgBody: `
+      
+      תודה על הזמנתך!
+      
+      אנו שמחים לאשר את הזמנתך עבור סוויטה מספר: ${suiteForm.id}. 
+      הסוויטה נמצאת בעיר ${suiteForm.city}, בכתובת ${suiteForm.address}. 
+      הסוויטה כוללת את כל השירותים הנדרשים להנאתך:
+      
+      - בריכה: ${suiteForm.pool ? "✅" : "❌"}
+      - ג'קוזי: ${suiteForm.jacuzzi ? "✅" : "❌"}
+      - אינטרנט אלחוטי: ${suiteForm.wifi ? "✅" : "❌"}
+      - נוף לים: ${suiteForm.seaView ? "✅" : "❌"}
+      - חניה: ${suiteForm.parking ? "✅" : "❌"}
+      - מיזוג אוויר: ${suiteForm.airConditioning ? "✅" : "❌"}
+      - מתקני מטבח: ${suiteForm.kitchenFacilities ? "✅" : "❌"}
+      - טלוויזיה: ${suiteForm.tv ? "✅" : "❌"}
+      
+      הדירוג הכולל של הסוויטה: ${suiteForm.rating} כוכבים
+      מחיר ללילה: ${suiteForm.pricePerNight} ₪
+      
+      מספר מיטות בסוויטה: ${suiteForm.numberBeds}
+      
+      אנו מקווים שתהיה לך שהות נעימה, ונשמח לראותך שוב בקרוב!
+      
+      בברכה,  
+      צוות SWEET SUITE🍭
+      `
+
+      ,
+      subject: `שלום ${currentCustomer.name} 😊,  תודה על הזמנתך`,
+      attachment: ""
+    }
+    dispatch(sendMailData(formMail))
     navigate('/thank-you', {
-      state: { paymentData }, // ניתן לשלוח נתונים בעזרת state
+      state: { paymentData },
     });
   };
 
   return (
     <Box sx={{ maxWidth: 600, margin: '0 auto', padding: 2 }}>
       <Typography variant="h4" gutterBottom>
-        Pay Now
+        שלם עכשיו
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          {/* שדה מספר כרטיס אשראי */}
+
           <Grid item xs={12}>
             <TextField
               label="Card Number"
@@ -76,7 +113,6 @@ export default function Pay() {
             />
           </Grid>
 
-          {/* שדה תאריך תפוגה */}
           <Grid item xs={6}>
             <FormControl fullWidth required>
               <InputLabel>Month</InputLabel>
@@ -113,7 +149,6 @@ export default function Pay() {
             </FormControl>
           </Grid>
 
-          {/* שדה CVC */}
           <Grid item xs={6}>
             <TextField
               label="CVC"
@@ -127,7 +162,6 @@ export default function Pay() {
             />
           </Grid>
 
-          {/* שדה תעודת זהות */}
           <Grid item xs={12}>
             <TextField
               label="ID Number"
@@ -140,11 +174,32 @@ export default function Pay() {
             />
           </Grid>
 
-          {/* כפתור שליחה */}
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" fullWidth>
-              Complete Payment
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                paddingX: 5,
+                paddingY: 1.5,
+                fontSize: "1.1rem",
+                fontWeight: "bold",
+                alignSelf: "center",
+                borderRadius: 25,
+                backgroundColor: "#B3E5FC", 
+                color: "#ffffff",
+                textTransform: "uppercase",
+                boxShadow: "0px 4px 15px rgba(25, 118, 210, 0.4)", 
+                transition: "background-color 0.3s ease, transform 0.2s ease",
+                "&:hover": {
+                  backgroundColor: "#4fc3f7",
+                  transform: "scale(1.05)",
+                },
+              }}
+            >
+              בצע תשלום
             </Button>
+
           </Grid>
         </Grid>
       </form>

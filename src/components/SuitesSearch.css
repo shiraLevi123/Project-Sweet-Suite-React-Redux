@@ -1,141 +1,261 @@
-/* תיבת סימון עם עיצוב יפה */
-input[type="checkbox"] {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  -webkit-appearance: none; /* מבטל את העיצוב ברירת המחדל */
-  -moz-appearance: none;
-  appearance: none;
-  border: 2px solid #4CAF50; /* צבע הגבול */
-  border-radius: 4px; /* פינות מעוגלות */
-  background-color: #fff; /* רקע לבן */
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease-in-out;
-}
+.checkbox-wrapper-5 .check {
+    --size: 40px;
+  
+    position: relative;
+    background: linear-gradient(90deg, #f19af3, #f099b5);
+    line-height: 0;
+    perspective: 400px;
+    font-size: var(--size);
+  }
 
-/* כאשר מסמנים את תיבת הסימון */
-input[type="checkbox"]:checked {
-  background-color: #4CAF50; /* רקע ירוק */
-  border-color: #4CAF50;
-}
+  .middleDir {
+    margin-top: 70px;
+    direction: rtl; /* מגדיר את כיוון הטקסט מימין לשמאל */
+    text-align: right;
+    border: 4px solid #80deea; /* צבע תכלת עם עובי בינוני */
+    border-radius: 15px; /* פינות עגולות */
+    padding: 20px; /* ריווח פנימי כדי למנוע הצמדות של התוכן למסגרת */
+  }
+  
 
-/* יצירת סימן V בתיבה כאשר היא מסומנת */
-input[type="checkbox"]:checked::before {
-  content: "✔";
-  color: white;
-  font-size: 14px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+  .suite-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .suite-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #0878bb;
+  }
+  
+  .suite-card p {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #333;
+  }
+  
+  button {
+    background-color: #B3E5FC;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    border-radius: 2px;
+    font-size: 1rem;
+  }
+  
+  button:hover {
+    background-color:  #4fc3f7; 
+ }
+  
+  .checkbox-wrapper-5 .check input[type="checkbox"],
+  .checkbox-wrapper-5 .check label,
+  .checkbox-wrapper-5 .check label::before,
+  .checkbox-wrapper-5 .check label::after,
+  .checkbox-wrapper-5 .check {
+    appearance: none;
+    display: inline-block;
+    border-radius: var(--size);
+    border: 0;
+    transition: .35s ease-in-out;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  
+  .checkbox-wrapper-5 .check label {
+    width: calc(2.2 * var(--size));
+    height: var(--size);
+    background: #d7d7d7;
+    overflow: hidden;
+  }
+  
+  .checkbox-wrapper-5 .check input[type="checkbox"] {
+    position: absolute;
+    z-index: 1;
+    width: calc(.8 * var(--size));
+    height: calc(.8 * var(--size));
+    top: calc(.1 * var(--size));
+    left: calc(.1 * var(--size));
+    background: linear-gradient(45deg, #dedede, #ffffff);
+    box-shadow: 0 6px 7px rgba(0,0,0,0.3);
+    outline: none;
+    margin: 0;
+  }
+  
+  .checkbox-wrapper-5 .check input[type="checkbox"]:checked {
+    left: calc(1.3 * var(--size));
+  }
+  
+  .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label {
+    background: transparent;
+  }
+  
+  .checkbox-wrapper-5 .check label::before,
+  .checkbox-wrapper-5 .check label::after {
+    content: "· ·";
+    position: absolute;
+    overflow: hidden;
+    left: calc(.15 * var(--size));
+    top: calc(.5 * var(--size));
+    height: var(--size);
+    letter-spacing: calc(-0.04 * var(--size));
+    color: #9b9b9b;
+    font-family: 'Arimo', sans-serif;
+    z-index: 2;
+    font-size: calc(.6 * var(--size));
+    border-radius: 0;
+    transform-origin: 0 0 calc(-0.5 * var(--size));
+    backface-visibility: hidden;
+  }
+  
+  .checkbox-wrapper-5 .check label::after {
+    content: "●";
+    top: calc(.65 * var(--size));
+    left: calc(.2 * var(--size));
+    height: calc(.1 * var(--size));
+    width: calc(.35 * var(--size));
+    font-size: calc(.2 * var(--size));
+    transform-origin: 0 0 calc(-0.4 * var(--size));
+  }
+  
+  .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::before,
+  .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
+    left: calc(1.55 * var(--size));
+    top: calc(.4 * var(--size));
+    line-height: calc(.1 * var(--size));
+    transform: rotateY(360deg);
+  }
+  
+  .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
+    height: calc(.16 * var(--size));
+    top: calc(.55 * var(--size));
+    left: calc(1.6 * var(--size));
+    font-size: calc(.6 * var(--size));
+    line-height: 0;
+  }
 
-/* כאשר תיבת הסימון מרחפת */
-input[type="checkbox"]:hover {
-  border-color: #45a049;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+  .suites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-evenly;
+    padding-top: 60px;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 100%;
+  }
+  
+  .suite-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .suite-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #0878bb;
+  }
+  
+  .suite-card p {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #0878bb;
+  }
+  
+  .suite-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
+  
+  .suite-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .suite-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #0878bb;
+  }
+  
+  .suite-card p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #0878bb;
+  }
+  
+  .suite-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
 
-/* הוספת עיצוב עם הגבלות לשאר הסטיילים */
-.suite-item {
-  display: block;
-  padding: 15px;
-  border: 1px solid #e0e0e0; /* צבע גבול בהיר */
-  border-radius: 8px; /* פינות מעוגלות יותר */
-  background-color: #f4f4f4; /* צבע רקע בהיר */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* הצללה קלה */
-  margin-bottom: 15px;
-  transition: transform 0.3s ease-in-out; /* אפקט מעבר חלק */
-}
+  .suite-images-container {
+    display: flex;
+    justify-content: center; /* ממרכז את התמונות */
+    gap: 16px; /* רווח בין התמונות */
+    padding: 20px;
+  }
+  .suite-card {
+    border: 1px solid #B3E5FC; 
+    padding: 20px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.6); 
+    width: 100%; /* גורם לכרטיס להתפשט לרוחב כל המיכל */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* הצללה כהה יותר */
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: right;
+    height: 70%; /* לדוגמה, גובה קבוע של 200px */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* מונע יציאה של תוכן מהכרטיס */
+  }
+  
+  .suite-image {
+    width: 140px; /* קובע רוחב קבוע של התמונה */
+    height: 140px; /* קובע גובה קבוע של התמונה */
+    object-fit: cover; /* מתאים את התמונה בגבולות הריבוע */
+    border-radius: 12px; /* קצוות עגולים */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* מעברי טרנספורמציה */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* הצללה קלה */
+  }
+  
+  
+  .suite-image:hover {
+    transform: scale(1.1); /* הגדלת התמונה בזמן Hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* הצללה חזקה יותר בעת Hover */
+  }
 
-.suite-item:hover {
-  transform: translateY(-5px); /* הזזה קלה בעת מעבר עכבר */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* הצללה חזקה יותר בעת ריחוף */
-}
+  
 
-/* Container for the whole component */
-div {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-
-/* Title for filter section */
-h3 {
-  text-align: center;
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-/* Styling for each label */
-label {
-  display: block;
-  margin-bottom: 10px;
-  color: #555;
-  font-size: 16px;
-}
-
-/* Styling for checkbox inputs */
-input[type="checkbox"], input[type="number"] {
-  margin-left: 10px;
-  margin-top: 5px;
-}
-
-/* Style for the button */
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
+/* עיצוב כפתור בצבע תכלת */
+.suite-card button {
+  background-color: #B3E5FC; /* צבע תכלת */
+  color: #fff; /* צבע טקסט לבן */
   padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-  margin-top: 20px;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-/* Styling for each suite item */
-.suite-item {
-  background-color: #fff;
-  padding: 15px;
-  margin-bottom: 15px;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-left: 5px solid #4CAF50;
-  transition: box-shadow 0.3s ease-in-out;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.suite-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.suite-card button:hover {
+  background-color: #4fc3f7;
 }
 
-/* Styling for the suite title */
-.suite-item h4 {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-/* Styling for the price and amenities */
-.suite-item p {
-  color: #555;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-/* Styling for when no suites are found */
-.suite-item.no-results {
-  text-align: center;
-  color: #888;
-  font-size: 16px;
-  margin-top: 20px;
-}
+  

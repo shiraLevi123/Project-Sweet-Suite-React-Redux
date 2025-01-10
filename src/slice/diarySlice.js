@@ -1,84 +1,63 @@
-// import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import { createDiaryEntry } from '../service/diaryService'
-// // פעולה אסינכרונית
-// export const createDiaryEntryAsync = createAsyncThunk(
-//   'diary/createDiaryEntry', // שם הפעולה
-//   async (diaryData, { rejectWithValue }) => {
-//     try {
-//       const response = await createDiaryEntry(diaryData); // שלח את הנתונים לאחור
-//       return response;  // אם הצליח, מחזיר את התוצאה
-//     } catch (error) {
-//       return rejectWithValue(error.response.data); // אם יש שגיאה, החזר את השגיאה
-//     }
-//   }
-// );
-
-// const diarySlice = createSlice({
-//   name: 'diary',
-//   initialState: {
-//     diaryEntries: [],
-//     status: 'idle', // idle | loading | succeeded | failed
-//     error: null,
-//   },
-//   reducers: {
-//     // כל פעולה סינכרונית אחרת אם יש צורך
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(createDiaryEntryAsync.pending, (state) => {
-//         state.status = 'loading';
-//       })
-//       .addCase(createDiaryEntryAsync.fulfilled, (state, action) => {
-//         state.status = 'succeeded';
-//         state.diaryEntries.push(action.payload);  // הוסף את הערך שהתקבל
-//       })
-//       .addCase(createDiaryEntryAsync.rejected, (state, action) => {
-//         state.status = 'failed';
-//         state.error = action.payload || action.error.message;  // הצגת השגיאה
-//       });
-//   },
-// });
-
-// export default diarySlice.reducer;
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createDiaryEntry } from '../service/diaryService';
+import { createDiaryEntry, getDiaries } from '../service/diaryService';
 
 // פעולה אסינכרונית לשליחת נתוני היומן
 export const createDiaryEntryAsync = createAsyncThunk('diary/createDiaryEntry',
     async (diaryData, { rejectWithValue }) => {
         try {
-            const response = await createDiaryEntry(diaryData); // שלח את הנתונים לשרת
-            return response;  // אם הצליח, מחזיר את התוצאה
+            const response = await createDiaryEntry(diaryData); 
+            return response;  
         } catch (error) {
-            // אם יש שגיאה, החזר את פרטי השגיאה
-            return rejectWithValue(error.response ? error.response.data : error.message);
+            return rejectWithValue('לצערנו סוויטה זאת תפוסה בתאריך שהזנת, אנא בחר תאריך אחר או סוויטה אחרת',error.response ? error.response.data : error.message);
         }
     }
 );
 
+export const getDiariesAsync = createAsyncThunk('diary/getDiariesAsync', async () => {
+    try {
+        const response = await getDiaries(); 
+        return response;  
+    } catch (error) {
+       console.log('failed get all diaries');
+    }
+});
+
+
 const diarySlice = createSlice({
     name: 'diary',
     initialState: {
-        diaryEntries: [],   // רשימה של כל הכניסות ליומן
+        diaryEntries: [],   
         status: 'idle',      // מצב פעולתה: idle | loading | succeeded | failed
-        error: null,         // שדה לשגיאות
+        error: null,         
     },
     reducers: {
-        // כל פעולה סינכרונית נוספת אם יש צורך
     },
     extraReducers: (builder) => {
         builder
             .addCase(createDiaryEntryAsync.pending, (state) => {
-                state.status = 'loading';  // מצב טוען
+                state.status = 'loading';  
             })
             .addCase(createDiaryEntryAsync.fulfilled, (state, action) => {
-                state.status = 'succeeded'; // הצלחה
-                state.diaryEntries.push(action.payload);  // הוסף את הכניסה החדשה
+                state.status = 'succeeded';
+                state.diaryEntries.push(action.payload); 
             })
             .addCase(createDiaryEntryAsync.rejected, (state, action) => {
-                state.status = 'failed';    // נכשל
-                state.error = action.payload || action.error.message; // הצגת השגיאה
-            });
+                state.status = 'failed'; 
+                state.error = action.payload || action.error.message; 
+
+            })
+            .addCase(getDiariesAsync.fulfilled, (state, action) => {
+                state.diaryEntries=action.payload;
+                state.loading = false;
+            })
+            .addCase(getDiariesAsync.pending, (state) => {
+                state.status = 'loading';  // מצב טוען
+            })
+            .addCase(getDiariesAsync.rejected, (state, action) => {
+                state.status = 'failed';  // נכשל
+                state.error = action.error.message; // הצגת השגיאה
+            })
+
     },
 });
 

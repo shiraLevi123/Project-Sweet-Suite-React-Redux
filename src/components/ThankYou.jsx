@@ -1,22 +1,20 @@
 import React from 'react';
-import { Box, Typography, Divider } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { Box, Typography, Divider, Rating } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 export default function ThankYou() {
-  // קבלת נתוני התשלום מ-location
   const location = useLocation();
-  const { paymentData } = location.state || {}; // קבלת נתונים שנשלחו
-  const mySuite = useSelector((state) => state.suite.mySuite); // פרטי הסוויטה
-  const myProfile = useSelector((state) => state.customer.currentCustomer); // פרטי המשתמש (אם יש)
+  const { paymentData } = location.state || {};
+  const mySuite = useSelector((state) => state.suite.mySuite);
+  const myProfile = useSelector((state) => state.customer.currentCustomer);
 
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto', padding: 2 }}>
       <Typography variant="h4" gutterBottom align="center" color="primary">
-        Thank You for Your Booking!
+        תודה על הזמנתך
       </Typography>
 
-      {/* פרטי המשתמש */}
       <Box sx={{
         border: '1px solid #ccc',
         borderRadius: 2,
@@ -25,17 +23,16 @@ export default function ThankYou() {
         marginBottom: 3
       }}>
         <Typography variant="h6" color="secondary">
-          User Profile:
+          שם משתמש:
         </Typography>
         <Typography>
-          <strong>Name:</strong> {myProfile.name}
+          <strong>שם:</strong> {myProfile.name}
         </Typography>
         <Typography>
           <strong>Email:</strong> {myProfile.email}
         </Typography>
       </Box>
 
-      {/* פרטי התשלום */}
       <Box sx={{
         border: '1px solid #ccc',
         borderRadius: 2,
@@ -44,22 +41,21 @@ export default function ThankYou() {
         marginBottom: 3
       }}>
         <Typography variant="h6" color="secondary">
-          Booking Details:
+          פרטי הזמנה:
         </Typography>
         <Typography>
-          <strong>Card Number:</strong> **** **** **** {paymentData.cardNumber.slice(-4)}
+          <strong>חיוב כרטיס: </strong> **** **** **** {paymentData.cardNumber.slice(-4)}
         </Typography>
         <Typography>
-          <strong>Expiry Date:</strong> {paymentData.expiryMonth}/{paymentData.expiryYear}
+          <strong>בתאריך: </strong> {paymentData.expiryMonth}/{paymentData.expiryYear}
         </Typography>
         <Typography>
-          <strong>ID Number:</strong> {paymentData.idNumber}
+          <strong>מ.ז:</strong> {paymentData.idNumber}
         </Typography>
       </Box>
 
       <Divider sx={{ margin: '20px 0' }} />
 
-      {/* פרטי הסוויטה */}
       <Box sx={{
         border: '1px solid #ccc',
         borderRadius: 2,
@@ -67,22 +63,33 @@ export default function ThankYou() {
         boxShadow: 2
       }}>
         <Typography variant="h6" color="secondary" gutterBottom>
-          Suite Details:
+         פרטי סוויטה
         </Typography>
-        <Typography><strong>Suite Number:</strong> {mySuite.numberBeds} Beds</Typography>
-        <Typography><strong>Rating:</strong> {mySuite.rating} / 5</Typography>
-        <Typography><strong>Price Per Night:</strong> {mySuite.pricePerNight} ₪</Typography>
-        <Typography><strong>City:</strong> {mySuite.city}</Typography>
-        <Typography><strong>Address:</strong> {mySuite.address}</Typography>
-        <Typography><strong>Pool:</strong> {mySuite.pool ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>Jacuzzi:</strong> {mySuite.jacuzzi ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>Wifi:</strong> {mySuite.wifi ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>Sea View:</strong> {mySuite.seaView ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>Parking:</strong> {mySuite.parking ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>Air Conditioning:</strong> {mySuite.airConditioning ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>Kitchen Facilities:</strong> {mySuite.kitchenFacilities ? 'Yes' : 'No'}</Typography>
-        <Typography><strong>TV:</strong> {mySuite.tv ? 'Yes' : 'No'}</Typography>
+        <Typography><strong>Suite Number:</strong> {mySuite.id}</Typography>
+        <div>
+          <Typography>
+            <Rating
+              name="suite-rating"
+              value={mySuite.rating} // הכנס את הדירוג כאן
+              readOnly // אם לא רוצים שתהיה אפשרות לשנות את הדירוג
+            />
+          </Typography>
+        </div>
+
+        <Typography><strong>ב:</strong> {mySuite.city}</Typography>
+        <Typography><strong>בכתובת:</strong> {mySuite.address}</Typography>
+        <Typography><strong>מחיר ללילה:</strong> {mySuite.pricePerNight} ₪</Typography>
+        <Typography><strong>בריכה:</strong> {mySuite.pool ? 'כן' : 'לא'}</Typography>
+        <Typography><strong>ג'קוזי:</strong> {mySuite.jacuzzi ? 'כן' : 'לא'}</Typography>
+        <Typography><strong>Wifi:</strong> {mySuite.wifi ? 'כן' : 'לא'}</Typography>
+        <Typography><strong>נוף לים :</strong> {mySuite.seaView ? 'כן' : 'לא'}</Typography>
+        <Typography><strong>חניה:</strong> {mySuite.parking ? 'כן' : 'No'}</Typography>
+        <Typography><strong>מזגן :</strong> {mySuite.airConditioning ? 'כן' : 'לא'}</Typography>
+        <Typography><strong> מטבח מאובזר:</strong> {mySuite.kitchenFacilities ? 'Yes' : 'לא'}</Typography>
+        <Typography><strong>טלוויזיה:</strong> {mySuite.tv ? 'כן' : 'לא'}</Typography>
+        <Typography><strong>מספר מיטות:</strong> {mySuite.numberBeds}</Typography>
       </Box>
+      
     </Box>
   );
 }
